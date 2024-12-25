@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init-scripts
+data:
+  init.sql: |
+    CREATE TABLE students (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(100) NOT NULL
+    );
+
+    INSERT INTO students (name) VALUES
+    ('Chloe King'),
+    ('Liam Young'),
+    ('Mason Moore'),
+    ('Ava Lee'),
+    ('Liam Perez'),
+    ('Olivia Thomas'),
+    ('Noah Wilson'),
+    ('Emma Martinez'),
+    ('James Garcia'),
+    ('Isabella Rodriguez'),
+    ('Sophia Harris'),
+    ('Alexander Clark'),
+    ('Benjamin Lewis'),
+    ('Amelia Walker'),
+    ('Logan Allen'),
+    ('Charlotte Scott'),
+    ('Jack Nelson'),
+    ('Samuel White'),
+    ('Lucas Hall'),
+    ('Grace Adams'),
+    ('Henry Green'),
+    ('Mia Carter'),
+    ('Ethan Mitchell'),
+    ('Abigail King'),
+    ('Matthew Moore'),
+    ('Scarlett Lewis'),
+    ('Isaac Wilson'),

@@ -1,0 +1,45 @@
+from flask import Flask, jsonify
+import psycopg2
+
+app = Flask(__name__)
+
+# Database connection parameters
+DB_HOST = "postgres-service"  # This will be the PostgreSQL service name in Kubernetes
+DB_NAME = "students"
+DB_USER = "postgres"
+DB_PASSWORD = "password"  # Change this in your actual setup
+
+@app.route('/users', methods=['GET'])
+def get_users():
+    try:
+        print("Connecting to the PostgreSQL database...")
+        # Connect to PostgreSQL
+        conn = psycopg2.connect(
+            host=DB_HOST,
+            database=DB_NAME,
+            user=DB_USER,
+            password=DB_PASSWORD
+        )
+        cursor = conn.cursor()
+        
+        # Corrected SQL query to match the actual column names in the 'students' table
+        cursor.execute("SELECT id, name FROM students LIMIT 100;")
+        rows = cursor.fetchall()
+        
+        # Format the results as a JSON response
+        users = [{"student_id": row[0], "student_name": row[1]} for row in rows]
+        
+        # Now output the formatted data as a JSON response
+        return jsonify(users)
+    
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({"error": str(e)}), 500
+    
+    finally:
+        if conn:
+            cursor.close()
+            conn.close()
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)

@@ -1,0 +1,22 @@
+# Use Python 3.9 image from Docker Hub
+FROM python:3.9-slim
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the local Flask application into the container
+COPY . /app
+
+# Install PostgreSQL development tools and other dependencies
+RUN apt-get update && apt-get install -y libpq-dev gcc && rm -rf /var/lib/apt/lists/*
+
+# Install dependencies
+ RUN pip install --no-cache-dir -r requirements.txt
+
+
+
+# Expose the Flask port
+EXPOSE 5000
+
+# Command to run the Flask application
+CMD ["python", "app.py"]
